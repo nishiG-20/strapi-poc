@@ -5,7 +5,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import MultiActionAreaCard from "./makeArticleCard.js" 
+import MultiActionAreaCard from "./makeArticleCard.js";
+import * as Realm from "realm-web";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,7 +44,6 @@ export default function Category() {
   const [categoryData, setCategoryData] = React.useState();
   const [selectedArticleData, setSelectedArticleData] = React.useState();
   const [value, setValue] = React.useState(0);
-
   const fetchArticleDataByCategory = async (Slug) => {
     let BASE_URL = `http://localhost:1337/api/articles?filters[category][slug][$eq]=${Slug}&&populate=*`;
     let headers = {
@@ -53,6 +53,40 @@ export default function Category() {
     const resp = await axios.get(BASE_URL, { headers });
     setSelectedArticleData(resp.data.data);
   };
+
+  React.useEffect(() => {
+    //joe.jasper@example.com
+    //passw0rd
+    // (async () => {
+    //   let email = "joe.jasper@example.com";
+    //   let password = "passw0rd";
+    //   const app = new Realm.App({ id: "application-2-ajzfj" });
+    //   // Create an email/password credential
+    //   const credentials = Realm.Credentials.emailPassword(email, password);
+    //   try {
+    //     // Authenticate the user
+    //     const user = await app.logIn(credentials);
+    //     // `App.currentUser` updates to match the logged in user
+    //   } catch (err) {
+    //     console.log('-----------------2-------------------')
+    //     console.error("Failed to log in", err);
+    //   }
+    // })();
+  });
+
+  React.useEffect(() => {
+    // (async () => {
+    //   const app = new Realm.App({ id: "application-2-ajzfj" });
+    //   const credentials = Realm.Credentials.anonymous();
+    //   try {
+    //     const user = await app.logIn(credentials);
+    //     console.log(user.functions)
+    //     const allProducts = await user.functions.getAllProducts();
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // })();
+  }, []);
 
   React.useEffect(() => {
     (async () => {
@@ -90,9 +124,33 @@ export default function Category() {
     return <h3>Data Loading...</h3>;
   }
 
-  let cardProps={
-    selectedArticleData
-  }
+  let cardProps = {
+    selectedArticleData,
+  };
+
+  // const fetchMongoData = async () => {
+  //   let url =
+  //     "https://data.mongodb-api.com/app/data-chbgd/endpoint/data/v1/action/find";
+  //   let headers = {
+  //     "Content-Type": "application/json",
+  //     "api-key":
+  //       "VbA66rx3Wpy2hd0DPBjXpZjkkvGx08YAD9TyFZ3mEmR48z2HinZdH49SkEkbp58k",
+  //   };
+  //   let body = {
+  //     collection: "products",
+  //     database: "store",
+  //     dataSource: "Cluster2",
+  //   };
+  //   try{
+  //     const resp = await axios.post(url,body,{headers});
+  //     console.log(resp);
+  //   }catch(err){
+  //     console.log('Not Working properly...')
+  //     console.log(err)
+  //   }
+  // };
+
+  // fetchMongoData();
 
   return (
     <Box sx={{ width: "100%", mt: 2 }}>
@@ -131,7 +189,7 @@ export default function Category() {
         categoryData.map((elem, index) => {
           return (
             <TabPanel value={value} index={index}>
-              <MultiActionAreaCard {...cardProps}/>
+              <MultiActionAreaCard {...cardProps} />
             </TabPanel>
           );
         })}
