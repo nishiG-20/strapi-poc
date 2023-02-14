@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as Realm from "realm-web";
 import { useNavigate } from "react-router-dom";
+import { pages, links ,appId} from "../Constants/constant"
 
 function Copyright(props) {
   return (
@@ -34,14 +35,13 @@ function Copyright(props) {
 }
 
 async function validateEmailAndPassword(userEmail, userPassword) {
-  const app = new Realm.App({ id: "application-2-ajzfj" });
+  const app = new Realm.App({ id: appId});
   // Create an email/password credential
   const credentials = Realm.Credentials.emailPassword(userEmail, userPassword);
   try {
     // Authenticate the user
     const user = await app.logIn(credentials);
     // const allProducts = await user.functions.getAllProducts();
-    // console.log(allProducts);
     return true;
   } catch (err) {
     return false;
@@ -57,7 +57,7 @@ export default function SignIn() {
   //Anonymous User Login
   // React.useEffect(() => {
   //   (async () => {
-  //     const app = new Realm.App({ id: "application-2-ajzfj" });
+  //     const app = new Realm.App({ id: appId });
   //     const credentials = Realm.Credentials.anonymous();
   //     try {
   //       const user = await app.logIn(credentials);
@@ -75,11 +75,11 @@ export default function SignIn() {
     let userPassword = data.get("password");
     if (await validateEmailAndPassword(userEmail, userPassword)) {
       setIsWrongCredentials(false);
-      console.log("Working Fine...");
+      pages = ["Home", "Category", "Movies"];
+      links = ["/", "/category", "/movies"];
       navigate("/category");
     } else {
       setIsWrongCredentials(true);
-      console.log("Please Enter correct detail...");
     }
   };
 

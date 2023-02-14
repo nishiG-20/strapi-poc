@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as Realm from "realm-web";
 import { useNavigate } from "react-router-dom";
 import LoginSharpIcon from "@mui/icons-material/LoginSharp";
+import { pages, links ,appId} from "../Constants/constant"
 
 async function emailPasswordLogin(userEmail, userPassword) {
   const app = new Realm.App({ id: "application-2-ajzfj" });
@@ -53,6 +54,8 @@ export default function SignUp() {
     let userPassword = data.get("password");
     if (await emailPasswordSignup(userEmail, userPassword)) {
       setIsWrongCredentials(false);
+      pages = ["Home", "Category", "Movies"];
+      links = ["/", "/category", "/movies"];
       navigate("/category");
     } else {
       setIsWrongCredentials(true);

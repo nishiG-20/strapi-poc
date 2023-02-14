@@ -15,12 +15,7 @@ import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { useNavigate } from "react-router-dom";
 import myImageIcon from "../images/img1.jpg";
 import * as Realm from "realm-web";
-
-// const pages = ["Home", "Category", "Sign In"];
-const pages = ["Home", "Sign In"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-// const links = ["/", "/category", "/signIn"];
-const links = ["/", "/signIn"];
+import { pages, links, settings ,appId} from "../Constants/constant"
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -39,7 +34,7 @@ function ResponsiveAppBar() {
     navigate(link);
   };
 
-  const handleCloseUserMenu = (settingMenuName) => {
+  const handleCloseUserMenu = async (settingMenuName) => {
     setAnchorElUser(null);
     if (settingMenuName == "Logout") {
       //navigate("/")
@@ -47,12 +42,12 @@ function ResponsiveAppBar() {
     }
   };
   const logOutUser = async () => {
-    const app = new Realm.App({ id: "application-2-ajzfj" });
+    const app = new Realm.App({ id: appId });
     if (!app.currentUser) return false;
     try {
-      app.currentUser.logOut();
-      // Setting the user to null once loggedOut.
-      // return true;
+      await app.currentUser.logOut();
+      pages = ["Home", "Sign In"];
+      links = ["/", "/signIn"];
       navigate("/")
     } catch (error) {
       throw error;
