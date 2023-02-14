@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import MultiActionAreaCard from "./makeArticleCard.js";
-import * as Realm from "realm-web";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,41 +52,6 @@ export default function Category() {
     const resp = await axios.get(BASE_URL, { headers });
     setSelectedArticleData(resp.data.data);
   };
-
-  React.useEffect(() => {
-    //joe.jasper@example.com
-    //passw0rd
-    // (async () => {
-    //   let email = "joe.jasper@example.com";
-    //   let password = "passw0rd";
-    //   const app = new Realm.App({ id: "application-2-ajzfj" });
-    //   // Create an email/password credential
-    //   const credentials = Realm.Credentials.emailPassword(email, password);
-    //   try {
-    //     // Authenticate the user
-    //     const user = await app.logIn(credentials);
-    //     // `App.currentUser` updates to match the logged in user
-    //   } catch (err) {
-    //     console.log('-----------------2-------------------')
-    //     console.error("Failed to log in", err);
-    //   }
-    // })();
-  });
-
-  React.useEffect(() => {
-    // (async () => {
-    //   const app = new Realm.App({ id: "application-2-ajzfj" });
-    //   const credentials = Realm.Credentials.anonymous();
-    //   try {
-    //     const user = await app.logIn(credentials);
-    //     console.log(user.functions)
-    //     const allProducts = await user.functions.getAllProducts();
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // })();
-  }, []);
-
   React.useEffect(() => {
     (async () => {
       let BASE_URL = "http://localhost:1337/api/categories?populate=*";

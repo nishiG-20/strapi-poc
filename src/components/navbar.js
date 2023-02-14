@@ -11,13 +11,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import NewspaperIcon from '@mui/icons-material/Newspaper';
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { useNavigate } from "react-router-dom";
 import myImageIcon from "../images/img1.jpg";
+import * as Realm from "realm-web";
 
-const pages = ["Home","Category"];
+// const pages = ["Home", "Category", "Sign In"];
+const pages = ["Home", "Sign In"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
-const links = ["/","/category"];
+// const links = ["/", "/category", "/signIn"];
+const links = ["/", "/signIn"];
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -36,8 +39,24 @@ function ResponsiveAppBar() {
     navigate(link);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (settingMenuName) => {
     setAnchorElUser(null);
+    if (settingMenuName == "Logout") {
+      //navigate("/")
+      logOutUser();
+    }
+  };
+  const logOutUser = async () => {
+    const app = new Realm.App({ id: "application-2-ajzfj" });
+    if (!app.currentUser) return false;
+    try {
+      app.currentUser.logOut();
+      // Setting the user to null once loggedOut.
+      // return true;
+      navigate("/")
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -156,7 +175,10 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
